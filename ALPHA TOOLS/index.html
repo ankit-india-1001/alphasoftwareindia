@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Compressor | by Ankit Podder</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Main App Card */
+        .container { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
+            width: 100%;
+            max-width: 480px; 
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+        }
+
+        /* Alpha Brand Logo Styling */
+        .brand-logo {
+            display: inline-block;
+            margin-bottom: 15px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .brand-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #007bff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        h2 { 
+            margin-top: 0; 
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .form-group { 
+            margin-bottom: 20px; 
+            text-align: left; 
+        }
+
+        label { 
+            font-weight: 600; 
+            display: block; 
+            margin-bottom: 8px; 
+            color: #444; 
+            font-size: 14px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fbff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .file-upload-wrapper:hover {
+            background: #e6f0ff;
+        }
+
+        .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload-text {
+            color: #007bff;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 10px; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            background: #f9f9f9;
+            color: #333;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            border-color: #007bff;
+        }
+
+        button { 
+            background: linear-gradient(to right, #007bff, #0056b3); 
+            color: white; 
+            border: none; 
+            padding: 15px 20px; 
+            width: 100%; 
+            border-radius: 10px; 
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px; 
+            font-weight: 600;
+            cursor: pointer; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            margin-top: 10px;
+        }
+
+        button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        button:disabled { 
+            background: #ccc; 
+            cursor: not-allowed; 
+            transform: none;
+            box-shadow: none;
+        }
+
+        #status { 
+            margin-top: 15px; 
+            font-size: 14px;
+            font-weight: 600; 
+            word-wrap: break-word; 
+            min-height: 20px;
+        }
+
+        .disclaimer-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #555;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .disclaimer-box i.fa-circle-info {
+            color: #d39e00;
+            margin-right: 5px;
+        }
+
+        .email-link {
+            color: #b08d00;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .email-link:hover {
+            color: #8a6d00;
+        }
+
+        /* Ecosystem Products Section */
+        .ecosystem-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .ecosystem-container h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 18px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-item {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 4px solid #007bff;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .product-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .product-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .product-title {
+            font-weight: 600;
+            color: #007bff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        a.product-title:hover {
+            text-decoration: underline;
+        }
+
+        .product-desc {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .current-badge {
+            font-size: 10px;
+            background: #28a745;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: auto;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Developer Footer */
+        .dev-footer {
+            margin-top: 30px;
+            color: white;
+            text-align: center;
+            font-size: 13px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            line-height: 1.6;
+        }
+
+        .dev-footer a {
+            color: #ffdd57;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .dev-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="https://alphaprojectindia.netlify.app/" target="_blank" class="brand-logo" title="Visit Project Alpha">
+        <span class="brand-text"><i class="fa-brands fa-autoprefixer"></i> ALPHA</span>
+    </a>
+
+    <h2>Universal Compressor</h2>
+    <div class="subtitle">Quickly shrink your Image & PDF files</div>
+    
+    <div class="form-group">
+        <label>Upload Document:</label>
+        <div class="file-upload-wrapper">
+            <input type="file" id="fileInput" accept="image/*,application/pdf" onchange="updateFileName()">
+            <div class="file-upload-text" id="fileNameDisplay">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Click to select Image or PDF
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="compressionLevel">Select Target Reduction:</label>
+        <select id="compressionLevel">
+            <option value="low">Low (10% - 20% Reduction) - Best Quality</option>
+            <option value="mid" selected>Mid (40% - 50% Reduction) - Balanced</option>
+            <option value="high">High (70% - 80% Reduction) - Smallest Size</option>
+        </select>
+    </div>
+
+    <button id="compressBtn" onclick="uploadAndCompress()">
+        <i class="fa-solid fa-bolt"></i> Compress & Download
+    </button>
+    <div id="status"></div>
+
+    <div class="disclaimer-box">
+        <i class="fa-solid fa-circle-info"></i> <strong>Developer Notice:</strong> This high-level compression requires a dedicated backend server. As a student fully building and funding this out of pocket with zero income, server resources are limited. The service may occasionally be hindered or offline. <br><br>
+        <i class="fa-solid fa-envelope"></i> If the compressor doesn't work, please write a mail to <a href="mailto:ankitpodder@zohomail.in" class="email-link">ankitpodder@zohomail.in</a>.
+    </div>
+</div>
+
+<div class="ecosystem-container">
+    <h3><i class="fa-solid fa-layer-group"></i> Explore ALPHA Ecosystem</h3>
+    
+    <div class="product-item">
+        <a href="https://alphaprojectindia.netlify.app/" target="_blank" class="product-title">
+            <i class="fa-solid fa-shield-halved"></i> Project Alpha
+        </a>
+        <div class="product-desc">A powerful network threat detector tool to analyze your network and generate comprehensive PDF security reports.</div>
+    </div>
+
+    <div class="product-item" style="border-left-color: #28a745;">
+        <div class="product-title" style="color: #28a745;">
+            <i class="fa-solid fa-compress"></i> ALPHA File Compressor
+            <span class="current-badge">Current</span>
+        </div>
+        <div class="product-desc">A heavy-duty, locally-hosted tool to massively reduce document and image file sizes.</div>
+    </div>
+</div>
+
+<div class="dev-footer">
+    Developed with <i class="fa-solid fa-code" style="color: #ffdd57;"></i> by <a href="https://alphaprojectindia.netlify.app/" target="_blank">Ankit Podder</a><br>
+    Python & Web Developer | Kalna, West Bengal
+</div>
+
+<script>
+    function updateFileName() {
+        const fileInput = document.getElementById('fileInput');
+        const display = document.getElementById('fileNameDisplay');
+        if (fileInput.files.length > 0) {
+            const fileName = fileInput.files[0].name;
+            display.innerHTML = `<i class="fa-solid fa-file-circle-check" style="color:#28a745;"></i> ${fileName}`;
+            display.style.color = "#333";
+        } else {
+            display.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Click to select Image or PDF`;
+            display.style.color = "#007bff";
+        }
+    }
+
+    async function uploadAndCompress() {
+        const fileInput = document.getElementById('fileInput');
+        const level = document.getElementById('compressionLevel').value;
+        const statusText = document.getElementById('status');
+        const btn = document.getElementById('compressBtn');
+
+        if (fileInput.files.length === 0) {
+            alert("Please select a file first.");
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('level', level);
+
+        statusText.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Compressing... Please wait.`;
+        statusText.style.color = "#007bff";
+        btn.disabled = true;
+
+        try {
+            const response = await fetch('https://sylvester-variable-chronically.ngrok-free.dev/compress', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorMsg = await response.text();
+                throw new Error(errorMsg || "Server connection failed. The backend might be offline.");
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            
+            const ext = file.name.split('.').pop();
+            a.download = ext.toLowerCase() === 'pdf' ? 'compressed_doc.pdf' : 'compressed_img.jpg';
+            
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            const oldSize = (file.size / 1024).toFixed(2);
+            const newSize = (blob.size / 1024).toFixed(2);
+            const reduction = (((file.size - blob.size) / file.size) * 100).toFixed(1);
+
+            statusText.style.color = "#28a745";
+            statusText.innerHTML = `<i class="fa-solid fa-circle-check"></i> Success! Reduced from ${oldSize}KB to ${newSize}KB (${reduction}% smaller).`;
+
+        } catch (error) {
+            console.error(error);
+            statusText.style.color = "#dc3545";
+            statusText.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Error: ${error.message} <br><span style="font-size: 12px; color: #555; margin-top: 5px; display: inline-block;">Server offline? Email <a href="mailto:ankitpodder@zohomail.in" style="color: #dc3545; text-decoration: underline;">ankitpodder@zohomail.in</a></span>`;
+        } finally {
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>
