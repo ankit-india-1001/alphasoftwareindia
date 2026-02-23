@@ -1,4 +1,6 @@
-fastapi
-uvicorn
-pymupdf
-python-multipart
+fastapi==0.132.0
+uvicorn==0.41.0
+pymupdf==1.27.1
+python-multipart==0.0.22
+pydantic==2.12.5
+gunicorn
