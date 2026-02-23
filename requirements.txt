@@ -1,6 +1,5 @@
-fastapi==0.132.0
-uvicorn==0.41.0
-pymupdf==1.27.1
-python-multipart==0.0.22
-pydantic==2.12.5
+Flask
 gunicorn
+werkzeug
+PyMuPDF
+Pillow
