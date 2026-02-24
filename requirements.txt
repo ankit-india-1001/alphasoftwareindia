@@ -1,7 +1,9 @@
 Flask
+Flask-CORS
 gunicorn
 werkzeug
 PyMuPDF
 Pillow
 CORS
+
 
