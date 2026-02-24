@@ -3,3 +3,4 @@ gunicorn
 werkzeug
 PyMuPDF
 Pillow
+CORS
